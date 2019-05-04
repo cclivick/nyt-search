@@ -36,7 +36,7 @@
             <input type="text" class="form-control" id="searchTerms">
         </div>
     <label>Number of Records to Retrieve: 
-        <select name="numRecords">
+        <select name="numRecords" id="records-number">
             <option value=1>1</option>
             <option value=5>5</option>
             <option value=10>10</option>
@@ -65,20 +65,42 @@
     var articleNum;
     var query;
     var startYear;
+
     var endYear;
 
-        $('.btn-primary').
-        query = prompt("Search Term");
-        articleNum = prompt("Number of articles?")
-        //  - start year (first four digits of pub_date)
-        startYear = prompt("Start Year");
-        var startYr = startYear + "0101";
-        //  - end year (first four digits of pub_date)
-        endYear = prompt("End Year");
-        var endYr = endYear + "1231";
+    var queryURL;
 
+        $('.btn-primary').on("click", function() {
+            event.preventDefault();
+            console.log("Submit Clicked")
+            query = $('#searchTerms').val();
+            console.log(query)
+            articleNum = $('#records-number').val();
+            console.log(articleNum)
+            //  - start year (first four digits of pub_date)
+            startYear =  $('#startYear').val();
+            var startYr = ("&begin_date="+ startYear + "0101");
+            console.log(startYear)
+            //  - end year (first four digits of pub_date)
+            endYear =  $('#endYear').val();
+            var endYr = ("&end_date=" + endYear + "1231");
+            console.log(endYear)
+            // if (startYear !== 0 && endYear !== 0) {           
+            //     queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + query + startYr + endYr + "&api-key="+apikey+"&fl=web_url,headline,snippet";
+            //     console.log("Scenario 1:" + queryURL)
+            // } else if (startYear !== 0 && endYear === 0) {
+            //     queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + query + startYr + "&api-key="+apikey+"&fl=web_url,headline,snippet";
+            //     console.log("Scenario 2:" + queryURL)
+            // } else if (startYear === 0 && endYear !== 0) {
+            //     queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + query + endYr + "&api-key="+apikey+"&fl=web_url,headline,snippet";
+            //     console.log("Scenario 3:" + queryURL)
+            // } else {
+            //     queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + query + "&api-key="+apikey+"&fl=web_url,headline,snippet";
+            //     console.log("Scenario 4:" + queryURL)
+            // }
 
-        var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + query + "&begin_date=" + startYr + "&end_date=" + endYr + "&api-key="+apikey+"&fl=web_url,headline,snippet";
+        });
+
         console.log(queryURL)
 
       $.ajax({
