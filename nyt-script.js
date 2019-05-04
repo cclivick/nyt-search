@@ -1,4 +1,4 @@
-// _Hint, look at the Aricle Search API_
+c// _Hint, look at the Aricle Search API_
 // *Stage 1*
 // # New York Times Article Search - Phase 01
 
