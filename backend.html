@@ -64,10 +64,10 @@
     var apikey = "Z9M8GGqHZC3JNlv6IIVYHQrTlIPEWAlA"
     var articleNum;
     var query;
-    var startYear;
-
-    var endYear;
-
+    var startYear = null;
+    var startYr;
+    var endYear = null;
+    var endYr;
     var queryURL;
 
         $('.btn-primary').on("click", function() {
@@ -79,27 +79,23 @@
             console.log(articleNum)
             //  - start year (first four digits of pub_date)
             startYear =  $('#startYear').val();
-            var startYr = ("&begin_date="+ startYear + "0101");
-            console.log(startYear)
+            if (startYear !== null) {
+            startYr = ("&begin_date="+ startYear + "0101");
+            } else {
+                startYr = "";
+            }
+            console.log("Start Year: " + startYr)
             //  - end year (first four digits of pub_date)
             endYear =  $('#endYear').val();
-            var endYr = ("&end_date=" + endYear + "1231");
-            console.log(endYear)
-            // if (startYear !== 0 && endYear !== 0) {           
-            //     queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + query + startYr + endYr + "&api-key="+apikey+"&fl=web_url,headline,snippet";
-            //     console.log("Scenario 1:" + queryURL)
-            // } else if (startYear !== 0 && endYear === 0) {
-            //     queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + query + startYr + "&api-key="+apikey+"&fl=web_url,headline,snippet";
-            //     console.log("Scenario 2:" + queryURL)
-            // } else if (startYear === 0 && endYear !== 0) {
-            //     queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + query + endYr + "&api-key="+apikey+"&fl=web_url,headline,snippet";
-            //     console.log("Scenario 3:" + queryURL)
-            // } else {
-            //     queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + query + "&api-key="+apikey+"&fl=web_url,headline,snippet";
-            //     console.log("Scenario 4:" + queryURL)
-            // }
-
+            if (endYear !== null) {
+            endYr = ("&end_date=" + endYear + "1231");
+            } else {
+            endYr = "";
+            }
+            console.log("End Year: " + endYr)
         });
+
+        queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + query + startYr + endYr + "&api-key="+apikey+"&fl=web_url,headline,snippet";
 
         console.log(queryURL)
 
