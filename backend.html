@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>New York Times Article Search</title>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <title>New York Times API Search</title>
+        <!--Boostrap link-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../nyt-search/assets/style.css">
+        <!--Javascript-->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 id="title">New York Times Seach</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <header>Search Parameters</header>
+    <form>
+        <div class="form-group">
+            <label>Search Term</label>
+            <input type="text" class="form-control" id="searchTerms">
+        </div>
+    <label>Number of Records to Retrieve: 
+        <select name="numRecords" id="records-number">
+            <option value=1>1</option>
+            <option value=5>5</option>
+            <option value=10>10</option>
+        </select>
+    </label>
+    <div class="form-group">
+        <label>Start Year (Optional)</label>
+        <input type="text" class="form-control" id="startYear">
+    </div>
+    <div class="form-group">
+            <label>End Year (Optional)</label>
+            <input type="text" class="form-control" id="endYear">
+        </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+    <button type="reset" class="btn btn-default">Clear Results</button>
+    </form>
+    </div>
+        <br>
+    <div class="container" id="results">
+        <header>Top Articles</header>
+    </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+  
+    var apikey = "Z9M8GGqHZC3JNlv6IIVYHQrTlIPEWAlA"
+    var articleNum;
+    var query;
+    var startYear = null;
+    var startYr;
+    var endYear = null;
+    var endYr;
+    var queryURL;
+
+        $('.btn-primary').on("click", function() {
+            event.preventDefault();
+            console.log("Submit Clicked")
+            query = $('#searchTerms').val();
+            console.log(query)
+            articleNum = $('#records-number').val();
+            console.log(articleNum)
+            //  - start year (first four digits of pub_date)
+            startYear =  $('#startYear').val();
+            if (startYear !== null) {
+            startYr = ("&begin_date="+ startYear + "0101");
+            } else {
+                startYr = "";
+            }
+            console.log("Start Year: " + startYr)
+            //  - end year (first four digits of pub_date)
+            endYear =  $('#endYear').val();
+            if (endYear !== null) {
+            endYr = ("&end_date=" + endYear + "1231");
+            } else {
+            endYr = "";
+            }
+            console.log("End Year: " + endYr)
+        });
+
+        queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + query + startYr + endYr + "&api-key="+apikey+"&fl=web_url,headline,snippet";
+
+        console.log(queryURL)
+
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      }).then(function(response) {
+
+        // Loop to bring back articles
+        for (i = 0; i < articleNum; i++) {
+        //  - number of articles requested - default is 5 (articleNum)
+            console.log(response.response.docs[i]) 
+            var animalDiv = $('<div>');
+        var p = $('<p>').text("Rating: " + results[i].rating);
+        var animalImage = $('<img>');
+        animalImage.attr("src", results[i].images.fixed_height.url);
+
+        animalDiv.append(p);
+        animalDiv.append(animalImage);
+
+        $('#gifs-appear-here').prepend(animalDiv);
+        }
+
+        // console.log(response.response.docs[i]) 
+
+        // Objects
+        // console.log(response)
+        // First Object
+        // console.log(response.response.docs[0])
+        // Publish Date
+        // console.log(response.response.docs[0].pub_date)
+        // Keywords
+        // console.log(response.response.docs[0].keywords)
+
+      })
+      </script>

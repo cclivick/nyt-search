@@ -21,3 +21,15 @@ c// _Hint, look at the Aricle Search API_
 
 // * Experiment with console logging various fields. (edited) 
 
+    var apikey = "542bd981a968df5d53d0696fbb59d466"
+    var article;
+    var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=election&api-key="+apikey;
+
+    console.log(queryURL)
+    
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      }).then(function(response) {
+
+      }
